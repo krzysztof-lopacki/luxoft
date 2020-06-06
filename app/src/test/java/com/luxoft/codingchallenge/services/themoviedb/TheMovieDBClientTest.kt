@@ -33,16 +33,16 @@ private const val SERVER_RESPONSE_1_ITEMS_COUNT = 20
 private const val SERVER_RESPONSE_1_PAGE = 1
 private const val SERVER_RESPONSE_1_TOTAL_PAGES = 31
 private const val SERVER_RESPONSE_1_TOTAL_ITEMS = 614
-private const val SERVER_RESPONSE_1_MOVIE_1_ID = "338762"
+private const val SERVER_RESPONSE_1_MOVIE_1_ID = 338762L
 private const val SERVER_RESPONSE_1_MOVIE_1_TITLE = "Bloodshot"
 private const val SERVER_RESPONSE_1_MOVIE_1_VOTE_AVERAGE = 7.0
 private const val SERVER_RESPONSE_1_MOVIE_1_POSTER_PATH = "/8WUVHemHFH2ZIP6NWkwlHWsyrEL.jpg"
 private const val SERVER_RESPONSE_1_MOVIE_1_BACKDROP_PATH = "/ocUrMYbdjknu2TwzMHKT9PBBQRw.jpg"
 private const val SERVER_RESPONSE_1_MOVIE_1_OVERVIEW = "Fake overview."
 private const val SERVER_RESPONSE_1_MOVIE_1_RELEASE_DATE = "2020-03-05"
-private const val SERVER_RESPONSE_2_MOVIE_1_ID = "338762"
+private const val SERVER_RESPONSE_2_MOVIE_1_ID = 338762L
 private const val SERVER_RESPONSE_2_MOVIE_1_TITLE = "Bloodshot"
-private const val SERVER_RESPONSE_3_MOVIE_1_ID = "338762"
+private const val SERVER_RESPONSE_3_MOVIE_1_ID = 338762L
 private const val SERVER_RESPONSE_3_MOVIE_1_TITLE = "Bloodshot"
 
 class TheMovieDBClientTest {

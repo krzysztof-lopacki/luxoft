@@ -1,7 +1,9 @@
 package com.luxoft.codingchallenge
 
 import android.app.Application
-import com.luxoft.codingchallenge.modules.TheMovieDBModule
+import com.luxoft.codingchallenge.modules.moviesRepositoryModule
+import com.luxoft.codingchallenge.modules.theMovieDBModule
+import com.luxoft.codingchallenge.modules.viewModelsModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -14,7 +16,7 @@ class CodingChallenge : Application() {
         startKoin {
             androidLogger()
             androidContext(this@CodingChallenge)
-            modules(TheMovieDBModule.createModule(this@CodingChallenge))
+            modules(theMovieDBModule, moviesRepositoryModule, viewModelsModule)
         }
     }
 }

@@ -30,5 +30,10 @@ task clean(type: Delete) {
 
 ext {
     koin_version= '2.1.5'
+    paging_version = '2.1.2'
+    retrofi_version = '2.9.0'
+    room_version = '2.2.5'
+    lifecycle_version = '2.2.0'
+    fragment_version = '1.2.4'
 }
 

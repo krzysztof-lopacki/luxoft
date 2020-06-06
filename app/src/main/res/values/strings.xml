@@ -1,3 +1,8 @@
 <resources>
-    <string name="app_name">The Movie DB - coding challenge</string>
+    <string name="app_name">The Movie DB</string>
+    <string name="now_playing">Now playing</string>
+
+    <string name="load_more_status_loading">Loading...</string>
+    <string name="load_more_status_error">Loading problem.\nClick to try again.</string>
+    <string name="refresh_first_page_error">Refreshing failed!\nTry again.</string>
 </resources>

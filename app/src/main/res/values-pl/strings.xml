@@ -1,0 +1,7 @@
+<resources>
+    <string name="now_playing">Teraz w kinach</string>
+
+    <string name="load_more_status_loading">Ładowanie..</string>
+    <string name="load_more_status_error">Błąd ładowania.\nKliknij, aby ponowić.</string>
+    <string name="refresh_first_page_error">Błąd odświeżania!\nSpróbuj ponownie.</string>
+</resources>

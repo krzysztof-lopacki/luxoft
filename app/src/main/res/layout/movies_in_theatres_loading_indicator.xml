@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <import type="android.view.View"/>
+        <import type="com.luxoft.codingchallenge.models.LoadingStatus" />
+        <import type="com.luxoft.codingchallenge.viewmodels.MoviesInTheatresListViewModel" />
+        <variable name="viewModel" type="MoviesInTheatresListViewModel" />
+    </data>
+
+    <TextView
+        android:id="@+id/indicator_message"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/movies_in_theatres_item_height"
+        android:textSize="@dimen/info_boxes_text_size"
+        android:gravity="center"
+        android:onClick="@{() -> viewModel.loadMoreMoviesInTheatres()}"
+        android:visibility='@{viewModel.loadingMoreMoviesInTheatresStatus == LoadingStatus.NOT_LOADING ? View.GONE : View.VISIBLE, default=invisible}'
+        android:textColor='@{viewModel.loadingMoreMoviesInTheatresStatus == LoadingStatus.FAILED ? @android:color/white : @android:color/black}'
+        android:background='@{viewModel.loadingMoreMoviesInTheatresStatus == LoadingStatus.FAILED ? @android:color/holo_red_dark : @android:color/transparent}'
+        android:text='@{viewModel.loadingMoreMoviesInTheatresStatus == LoadingStatus.FAILED ? @string/load_more_status_error : @string/load_more_status_loading}' />
+
+</layout>

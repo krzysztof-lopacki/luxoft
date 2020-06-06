@@ -3,4 +3,9 @@
     <string name="config_moviedb_url">https://api.themoviedb.org/3/</string>
     <string name="config_moviedb_api_key">2ec83034cfecf46a7f1d847849d824cc</string>
 
+
+    <string name="config_movies_repository_shared_preferences_file">movies_repository_shared_preferences</string>
+    <integer name="config_movies_repository_page_size">20</integer>
+    <integer name="config_movies_repository_first_page_lifetime">15000</integer>
+
 </resources>
