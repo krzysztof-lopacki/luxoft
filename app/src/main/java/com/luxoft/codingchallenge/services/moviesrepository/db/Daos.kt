@@ -54,6 +54,6 @@ interface FavouritesDao {
     @Query("SELECT isFavourite FROM favourites WHERE movieId = :movieId UNION ALL SELECT 0")
     fun isFavourite(movieId: Long): Observable<Boolean>
 
-    @Query("SELECT * from favourites")
-    fun getAll(): List<FavouriteMovieEntity>
+    @Query("SELECT * FROM favourites WHERE movieId in (:movieIds) AND isFavourite = 1")
+    fun getIfFavourite(movieIds: List<Long>): Observable<List<FavouriteMovieEntity>>
 }

@@ -14,7 +14,7 @@ import io.reactivex.subjects.PublishSubject
 
 class RoomBasedMoviesRepository (private val moviesDao: MoviesDao,
                                  private val favouritesDao: FavouritesDao,
-                                 private val moviesSearch: MoviesSearch?,
+                                 private val moviesSearch: MoviesSearch,
                                  private val moviesInTheatresUpdater: MoviesInTheatresUpdater,
                                  private val dbScheduler: Scheduler,
                                  private val configuration: Configuration) : MoviesRepository {
@@ -91,10 +91,24 @@ class RoomBasedMoviesRepository (private val moviesDao: MoviesDao,
     override fun isMovieInFavourites(movieId: Long) = favouritesDao.isFavourite(movieId)
 
     override fun searchForTheMovie(query: String): Observable<List<Movie>> {
-        TODO("Not yet implemented")
+        return moviesSearch.searchForTheMovie(query, 1)
+            .map { page -> page.items }
+            .flatMapObservable { items ->
+                favouritesDao.getIfFavourite(items.map { movie -> movie.id })
+                    .map { favourites ->
+                        val favouriteIds = favourites.map { item -> item.movieId }
+                        items.map { movie ->
+                            if (favouriteIds.contains(movie.id)) {
+                                movie.copy(isFavourite = true)
+                            } else {
+                                movie
+                            }
+                        }
+                    }
+            }
     }
 }
 
 private fun <T> Completable.toErrorlessObservable(): Observable<T> {
-    return onErrorComplete().toObservable<T>()
+    return onErrorComplete().toObservable()
 }

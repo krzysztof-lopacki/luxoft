@@ -1,7 +1,6 @@
 package com.luxoft.codingchallenge.services.api
 
 import androidx.paging.PagedList
-import com.luxoft.codingchallenge.models.LoadingStatus
 import com.luxoft.codingchallenge.models.Movie
 import io.reactivex.Completable
 import io.reactivex.Observable

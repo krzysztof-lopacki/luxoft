@@ -3,11 +3,9 @@ package com.luxoft.codingchallenge.ui.fragments
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -22,6 +20,7 @@ import com.luxoft.codingchallenge.databinding.MoviesInTheatresLoadingIndicatorBi
 import com.luxoft.codingchallenge.models.LoadingStatus
 import com.luxoft.codingchallenge.models.Movie
 import com.luxoft.codingchallenge.services.moviesrepository.MoviesInTheatresUpdater
+import com.luxoft.codingchallenge.utils.ui.createToast
 import com.luxoft.codingchallenge.viewmodels.MoviesInTheatresListViewModel
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -87,13 +86,8 @@ class MoviesInTheatresListFragment : Fragment() {
         })
         moviesListViewModel.loadingRecentMoviesErrors.observe(viewLifecycleOwner, Observer { error ->
             error.handle {
-                activity?.applicationContext?.let { applicationContext ->
-                    val toastView: View = layoutInflater.inflate(R.layout.refreshing_failed_toast, null)
-                    val toast = Toast(applicationContext)
-                    toast.setGravity(Gravity.BOTTOM, 0, applicationContext.resources.getDimension(R.dimen.toast_bottom_margin).toInt())
-                    toast.duration = Toast.LENGTH_SHORT
-                    toast.view = toastView
-                    toast.show()
+                requireActivity().applicationContext.let { applicationContext ->
+                    createToast(applicationContext, R.string.refresh_first_page_error).show()
                 }
                 true
             }
