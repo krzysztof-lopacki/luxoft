@@ -29,8 +29,8 @@
 
         <ImageView
             android:id="@+id/toggleFavouriteIcon"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
             android:layout_margin="8dp"
             android:src="@{movie.isFavourite == true ? @drawable/start_filled : @drawable/start_outline}"
             android:contentDescription="@string/content_description_toggle_favourite_button"

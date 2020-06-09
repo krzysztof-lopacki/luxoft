@@ -31,9 +31,10 @@ task clean(type: Delete) {
 ext {
     koin_version= '2.1.5'
     paging_version = '2.1.2'
-    retrofi_version = '2.6.4'
+    retrofi_version = '2.6.4' // latest version working on Android 4.4
     room_version = '2.2.5'
     lifecycle_version = '2.2.0'
     fragment_version = '1.2.4'
+    glide_version = '4.11.0'
 }
 

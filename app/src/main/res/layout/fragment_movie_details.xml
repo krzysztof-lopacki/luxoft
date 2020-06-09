@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <import type="com.luxoft.codingchallenge.viewmodels.MovieDetailsViewModel" />
+        <import type="android.text.TextUtils"/>
+        <variable name="viewModel" type="MovieDetailsViewModel" />
+    </data>
+
+    <ScrollView
+        android:id="@+id/rootView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/backdropImage"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:contentDescription="@string/content_description_backdrop_image"
+                app:layout_constraintDimensionRatio="16:9"
+                app:layout_constraintTop_toTopOf="parent"
+                android:scaleType="center"
+                android:background="@android:color/darker_gray"
+                app:backdropImageSrc="@{viewModel.movie.backdropPath}"/>
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/backdropImage"
+                android:layout_marginHorizontal="@dimen/movie_details_horizontal_margin"
+                android:layout_marginTop="@dimen/movie_details_groups_vertical_spacing"
+                android:text="@{viewModel.movie.title}"
+                android:textSize="32sp" />
+
+            <TextView
+                android:id="@+id/releaseDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/title"
+                android:layout_marginHorizontal="@dimen/movie_details_horizontal_margin"
+                android:text="@{viewModel.movie.releaseDate != null ? @string/movie_details_date_pattern(viewModel.movie.releaseDate) : @string/movie_details_date_unknown}"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/rate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/releaseDate"
+                android:layout_marginHorizontal="@dimen/movie_details_horizontal_margin"
+                android:text="@{viewModel.movie.voteAverage != null ? @string/movie_details_average_rating(viewModel.movie.voteAverage) : @string/movie_details_average_rating_unknown}"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/rate"
+                android:layout_marginHorizontal="@dimen/movie_details_horizontal_margin"
+                android:layout_marginTop="@dimen/movie_details_groups_vertical_spacing"
+                android:paddingBottom="@dimen/movie_details_groups_vertical_spacing"
+                android:text="@{TextUtils.isEmpty(viewModel.movie.overview) ? @string/movie_details_overview_not_available : viewModel.movie.overview}"
+                android:textSize="16sp" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+</layout>

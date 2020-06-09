@@ -54,7 +54,21 @@ class TheMovieDBClientTest {
         mockWebServer = MockWebServer()
         mockWebServer.start()
 
-        val configuration = Configuration(mockWebServer.url(SERVER_URL), LANGUAGE_VALUE, API_KEY_VALUE)
+        val configuration = object : Configuration {
+            override val serverUrl = mockWebServer.url(SERVER_URL)
+            override val language = LANGUAGE_VALUE
+            override val apiKey = API_KEY_VALUE
+            override val imageUrlPattern: String
+                get() = TODO("Not yet implemented")
+            override val backdropSizes: IntArray
+                get() = TODO("Not yet implemented")
+            override val posterSizes: IntArray
+                get() = TODO("Not yet implemented")
+            override val imageUrlPatternFixedWidthChunkPattern: String
+                get() = TODO("Not yet implemented")
+            override val imageUrlPatternOriginalWidthChunk: String
+                get() = TODO("Not yet implemented")
+        }
         sut = TheMovieDBClient(createTheMovieDBConverterFactory(), configuration)
     }
 

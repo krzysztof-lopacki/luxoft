@@ -1,0 +1,7 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/addRemoveFromFavourites"
+        android:title="@string/movie_details_menu_add_to_favourites"
+        android:icon="@drawable/start_filled"
+        app:showAsAction="ifRoom" />
+</menu>

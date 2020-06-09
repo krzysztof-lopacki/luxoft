@@ -32,7 +32,7 @@ class MoviesInTheatresListFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         binding = FragmentMoviesInTheatresBinding.inflate(inflater)
-        binding.lifecycleOwner = this
+        binding.lifecycleOwner = viewLifecycleOwner
 
         configureAndBindMoviesInTheatresView()
         bindSwipeToRefresh()

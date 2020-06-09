@@ -10,5 +10,18 @@
     <string name="search_hint">Search for the movie…</string>
     <string name="search_nothing_found">0 movies found</string>
 
+    <string name="movie_details_menu_add_to_favourites">Add to Favourites</string>
+    <string name="movie_details_menu_remove_from_favourites">Remove from Favourites</string>
+
+    <string name="toast_added_to_favourites">Added to favourites!</string>
+    <string name="toast_removed_from_favourites">Removed from favourites.</string>
+
+    <string name="movie_details_date_pattern">Release date: %1$td %1$tB %1$tY</string>
+    <string name="movie_details_date_unknown">Release date: unknown.</string>
+    <string name="movie_details_average_rating">Average rating: %.1f / 10</string>
+    <string name="movie_details_average_rating_unknown">Average rating: not available yet.</string>
+    <string name="movie_details_overview_not_available">Description not available yet.</string>
+
     <string name="content_description_toggle_favourite_button">Toggle favourite</string>
+    <string name="content_description_backdrop_image">Backdrop image</string>
 </resources>

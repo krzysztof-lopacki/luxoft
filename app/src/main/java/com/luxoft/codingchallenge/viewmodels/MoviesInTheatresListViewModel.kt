@@ -7,9 +7,9 @@ import com.luxoft.codingchallenge.models.LoadingStatus
 import com.luxoft.codingchallenge.models.Movie
 import com.luxoft.codingchallenge.services.api.MoviesRepository
 import com.luxoft.codingchallenge.utils.livedata.HandleableEvent
+import com.luxoft.codingchallenge.utils.rxjava.subscribeAndIgnoreErrors
 import com.luxoft.codingchallenge.utils.rxjava.toLiveData
 import io.reactivex.BackpressureStrategy
-import io.reactivex.Completable
 import io.reactivex.disposables.CompositeDisposable
 
 class MoviesInTheatresListViewModel(private val moviesRepository: MoviesRepository): ViewModel() {
@@ -46,11 +46,11 @@ class MoviesInTheatresListViewModel(private val moviesRepository: MoviesReposito
     }
 
     fun loadMoreMoviesInTheatres() {
-        moviesRepository.loadMoreMoviesInTheatres().subscribeAndIgnoreErrors()
+        moviesRepository.loadMoreMoviesInTheatres().subscribeAndIgnoreErrors(subscriptions)
     }
 
     fun loadRecentMoviesInTheatres() {
-        moviesRepository.loadRecentMoviesInTheatres().subscribeAndIgnoreErrors()
+        moviesRepository.loadRecentMoviesInTheatres().subscribeAndIgnoreErrors(subscriptions)
     }
 
     fun onMovieClicked(movie: Movie) {
@@ -59,18 +59,14 @@ class MoviesInTheatresListViewModel(private val moviesRepository: MoviesReposito
 
     fun onToggleFavouriteClicked(movie: Movie) {
         if (movie.isFavourite == true) {
-            moviesRepository.removeMovieFromFavourites(movie.id).subscribeAndIgnoreErrors()
+            moviesRepository.removeMovieFromFavourites(movie.id).subscribeAndIgnoreErrors(subscriptions)
         } else {
-            moviesRepository.addMovieToFavourites(movie.id).subscribeAndIgnoreErrors()
+            moviesRepository.addMovieToFavourites(movie.id).subscribeAndIgnoreErrors(subscriptions)
         }
     }
 
     override fun onCleared() {
         subscriptions.clear()
-    }
-
-    private fun Completable.subscribeAndIgnoreErrors() {
-        subscriptions.add(onErrorComplete().subscribe())
     }
 }
 

@@ -98,7 +98,12 @@ class RoomBasedMoviesRepository (private val moviesDao: MoviesDao,
                     .map { favourites ->
                         val favouriteIds = favourites.map { item -> item.movieId }
                         items.map { movie ->
-                            movie.copy(isFavourite = favouriteIds.contains(movie.id))
+                            val isFavourite = favouriteIds.contains(movie.id)
+                            if (movie.isFavourite != isFavourite) {
+                                movie.copy(isFavourite = isFavourite)
+                            } else {
+                                movie
+                            }
                         }
                     }
             }

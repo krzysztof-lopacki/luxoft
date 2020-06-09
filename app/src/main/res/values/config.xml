@@ -1,10 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="config_moviedb_url">https://api.themoviedb.org/3/</string>
-    <string name="config_moviedb_api_key">2ec83034cfecf46a7f1d847849d824cc</string>
+    <string name="config_moviedb_url" translatable="false">https://api.themoviedb.org/3/</string>
+    <string name="config_moviedb_api_key" translatable="false">2ec83034cfecf46a7f1d847849d824cc</string>
+    <string name="config_moviedb_image_url_pattern" translatable="false">https://image.tmdb.org/t/p/%1$s%2$s</string>
+    <integer-array name="config_moviedb_image_backdrop_sizes">
+        <item>300</item>
+        <item>780</item>
+        <item>1280</item>
+    </integer-array>
+    <string name="config_moviedb_image_original_size_chunk" translatable="false">original</string>
+    <string name="config_moviedb_image_fixed_width_chunk_pattern" translatable="false">w%1$s</string>
+    <integer-array name="config_moviedb_image_poster_sizes">
+        <item>92</item>
+        <item>154</item>
+        <item>185</item>
+        <item>342</item>
+        <item>500</item>
+        <item>780</item>
+    </integer-array>
 
-
-    <string name="config_movies_repository_shared_preferences_file">movies_repository_shared_preferences</string>
+    <string name="config_movies_repository_shared_preferences_file" translatable="false">movies_repository_shared_preferences</string>
     <integer name="config_movies_repository_page_size">20</integer>
     <integer name="config_movies_repository_first_page_lifetime">15000</integer>
 

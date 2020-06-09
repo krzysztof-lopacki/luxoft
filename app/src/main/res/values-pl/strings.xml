@@ -9,5 +9,18 @@
     <string name="search_hint">Wpisz tytuł filmu…</string>
     <string name="search_nothing_found">Nie znaleziono filmu!</string>
 
+    <string name="movie_details_menu_add_to_favourites">Dodaj do Ulubionych</string>
+    <string name="movie_details_menu_remove_from_favourites">Usuń z Ulubionych</string>
+
+    <string name="toast_added_to_favourites">Dodano do Ulubionych!</string>
+    <string name="toast_removed_from_favourites">Usunięto z Ulubionych.</string>
+
+    <string name="movie_details_date_pattern">Data wydania: %1$td %1$tB %1$tY</string>
+    <string name="movie_details_date_unknown">Data wydania: nieznana.</string>
+    <string name="movie_details_average_rating">Średnia ocena: %.1f / 10</string>
+    <string name="movie_details_average_rating_unknown">Średnia ocena: brak.</string>
+    <string name="movie_details_overview_not_available">Opis w przygotowaniu.</string>
+
     <string name="content_description_toggle_favourite_button">Dodaj/usuń z ulubionych</string>
+    <string name="content_description_backdrop_image">Klatka z filmu</string>
 </resources>

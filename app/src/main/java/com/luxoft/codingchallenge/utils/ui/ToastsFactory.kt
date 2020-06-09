@@ -58,14 +58,14 @@ fun createToastWithPlainBackground(applicationContext: Context,
  * @param duration How long the [Toast] should be shown.
  * @param layout Layout of the Toast. Should be a child of [TextView].
  */
-private fun createToast(applicationContext: Context,
+fun createToast(applicationContext: Context,
                 @StringRes message: Int,
                 duration: Int,
                 @LayoutRes layout: Int): Pair<TextView, Toast> {
     val toastView = LayoutInflater.from(applicationContext).inflate(layout, null) as TextView
     toastView.text = applicationContext.resources.getString(message)
     val toast = Toast(applicationContext)
-    toast.setGravity(Gravity.BOTTOM, 0, applicationContext.resources.getDimension(R.dimen.toast_bottom_margin).toInt())
+    toast.setGravity(Gravity.BOTTOM, 0, applicationContext.resources.getDimensionPixelSize(R.dimen.toast_bottom_margin))
     toast.duration = duration
     toast.view = toastView
     return toastView to toast
