@@ -8,4 +8,6 @@
     <string name="search_menu_item_title">Znajdź film</string>
     <string name="search_hint">Wpisz tytuł filmu…</string>
     <string name="search_nothing_found">Nie znaleziono filmu!</string>
+
+    <string name="content_description_toggle_favourite_button">Dodaj/usuń z ulubionych</string>
 </resources>

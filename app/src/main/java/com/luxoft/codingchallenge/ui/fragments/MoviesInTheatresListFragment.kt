@@ -19,13 +19,8 @@ import com.luxoft.codingchallenge.databinding.MoviesInTheatresItemBinding
 import com.luxoft.codingchallenge.databinding.MoviesInTheatresLoadingIndicatorBinding
 import com.luxoft.codingchallenge.models.LoadingStatus
 import com.luxoft.codingchallenge.models.Movie
-import com.luxoft.codingchallenge.services.moviesrepository.MoviesInTheatresUpdater
 import com.luxoft.codingchallenge.utils.ui.createToast
 import com.luxoft.codingchallenge.viewmodels.MoviesInTheatresListViewModel
-import io.reactivex.Completable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
-import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
@@ -33,7 +28,6 @@ class MoviesInTheatresListFragment : Fragment() {
     private lateinit var binding: FragmentMoviesInTheatresBinding
 
     private val moviesListViewModel: MoviesInTheatresListViewModel by viewModel()
-    private val moviesInTheatresUpdater: MoviesInTheatresUpdater by inject()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -55,21 +49,20 @@ class MoviesInTheatresListFragment : Fragment() {
         binding.moviesList.itemAnimator = null
         binding.moviesList.adapter = adapter
 
-        Completable.fromCallable {
-            moviesInTheatresUpdater.clearData()
-        }
-        .observeOn(AndroidSchedulers.mainThread())
-        .andThen(Completable.fromCallable {
-            moviesListViewModel.moviesInTheatres.observe(viewLifecycleOwner, Observer { newList ->
-                if (layoutManager.findFirstVisibleItemPosition() == 0) {
-                    binding.moviesList.post {
-                        binding.moviesList.smoothScrollToPosition(0)
-                    }
-                }
-                adapter.submitList(newList)
-            })
+        moviesListViewModel.moviesInTheatres.observe(viewLifecycleOwner, Observer { newList ->
+            if (adapter.itemCount <= 1) {
+                // first run - only footer is visible
+                // android will follow the visible item and scroll list to the bottom
+                // we need to scroll it back
+                binding.moviesList.scrollToPosition(0)
+            }
+            else if (layoutManager.findFirstVisibleItemPosition() == 0) {
+                // probably new items are PREPENDED.
+                // let's show them
+                binding.moviesList.smoothScrollToPosition(0)
+            }
+            adapter.submitList(newList)
         })
-        .subscribeOn(Schedulers.io()).subscribe()
     }
 
     /**
@@ -150,11 +143,13 @@ class MoviesInTheatresListFragment : Fragment() {
 
         fun bind(movie: Movie?) {
             binding?.movie = movie
+            binding?.moviesListViewModel = moviesListViewModel
             binding?.executePendingBindings()
         }
 
         fun unbind() {
             binding?.movie = null
+            binding?.moviesListViewModel = null
         }
     }
 
@@ -171,8 +166,6 @@ class MoviesInTheatresListFragment : Fragment() {
         fun bind() {
             binding?.viewModel = moviesListViewModel
             binding?.executePendingBindings()
-            Log.d("#TEST", "SET to $binding = ${moviesListViewModel.loadingMoreMoviesInTheatresStatus}")
-
         }
         fun unbind() {
             binding?.viewModel = null

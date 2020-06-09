@@ -304,10 +304,8 @@ class MoviesInTheatresUpdater(private val moviesDao: MoviesDao,
      * @param firstSortingIndex A sorting index for the first movie.
      */
     private fun putMovies(movies: List<Movie>, firstSortingIndex: Long) {
-        Log.d("#DB", "firstSortingIndex = $firstSortingIndex")
         moviesDao.add(movies.mapIndexed { index, movie ->
             val entity = MovieEntity(null, movie, firstSortingIndex + index)
-            Log.d("#DB", "putting movie: ${entity.movie.title} / ${entity.movie.id} / ${entity.sortingIndex} ")
             entity
         })
     }

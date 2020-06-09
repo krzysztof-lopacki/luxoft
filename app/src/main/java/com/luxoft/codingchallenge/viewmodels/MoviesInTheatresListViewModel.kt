@@ -3,6 +3,7 @@ package com.luxoft.codingchallenge.viewmodels
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.ViewModel
 import com.luxoft.codingchallenge.models.LoadingStatus
+import com.luxoft.codingchallenge.models.Movie
 import com.luxoft.codingchallenge.services.api.MoviesRepository
 import com.luxoft.codingchallenge.utils.livedata.HandleableEvent
 import com.luxoft.codingchallenge.utils.rxjava.toLiveData
@@ -31,31 +32,39 @@ class MoviesInTheatresListViewModel(private val moviesRepository: MoviesReposito
             .map { isLoading -> isLoading.toLoadingStatus() }
             .toLiveData(BackpressureStrategy.LATEST)
         loadingMoreMoviesInTheatresStatus.addSource(loadingMoreMoviesInTheatresBiStatus) {
-            loadingMoreMoviesInTheatresStatus.value = it
+            loadingMoreMoviesInTheatresStatus.postValue(it)
         }
         val loadingMoreMoviesInTheatresErrorStatus = moviesRepository.loadingMoreMoviesInTheatresErrors
             .map { LoadingStatus.FAILED }
             .toLiveData(BackpressureStrategy.LATEST)
         loadingMoreMoviesInTheatresStatus.addSource(loadingMoreMoviesInTheatresErrorStatus) {
-            loadingMoreMoviesInTheatresStatus.value = it
+            loadingMoreMoviesInTheatresStatus.postValue(it)
         }
     }
 
     fun loadMoreMoviesInTheatres() {
-        moviesRepository.loadMoreMoviesInTheatres().subscribeAndIgnoreErrors(subscriptions)
+        moviesRepository.loadMoreMoviesInTheatres().subscribeAndIgnoreErrors()
     }
 
     fun loadRecentMoviesInTheatres() {
-        moviesRepository.loadRecentMoviesInTheatres().subscribeAndIgnoreErrors(subscriptions)
+        moviesRepository.loadRecentMoviesInTheatres().subscribeAndIgnoreErrors()
+    }
+
+    fun onToggleFavouriteClicked(movie: Movie) {
+        if (movie.isFavourite == true) {
+            moviesRepository.removeMovieFromFavourites(movie.id).subscribeAndIgnoreErrors()
+        } else {
+            moviesRepository.addMovieToFavourites(movie.id).subscribeAndIgnoreErrors()
+        }
     }
 
     override fun onCleared() {
         subscriptions.clear()
     }
-}
 
-private fun Completable.subscribeAndIgnoreErrors(subscriptionManager: CompositeDisposable) {
-    subscriptionManager.add(onErrorComplete().subscribe())
+    private fun Completable.subscribeAndIgnoreErrors() {
+        subscriptions.add(onErrorComplete().subscribe())
+    }
 }
 
 private fun Boolean.toLoadingStatus(): LoadingStatus {

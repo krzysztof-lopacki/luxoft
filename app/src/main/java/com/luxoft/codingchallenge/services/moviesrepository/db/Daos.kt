@@ -16,7 +16,8 @@ interface MoviesDao {
 
     @Transaction
     @SuppressWarnings(RoomWarnings.CURSOR_MISMATCH)
-    @Query("SELECT DISTINCT movies.*, COALESCE(favourites.isFavourite, 0) as isFavourite " +
+    @Query("SELECT DISTINCT movies.id, movies.title, movies.posterPath, movies.backdropPath, movies.overview, movies.releaseDate, movies.voteAverage, " +
+            "COALESCE(favourites.isFavourite, 0) as isFavourite " +
             "FROM movies LEFT JOIN favourites ON movies.id = favourites.movieId ORDER BY movies.sortingIndex")
     fun getAllPagedList(): DataSource.Factory<Int, Movie>
 
