@@ -2,7 +2,6 @@ package com.luxoft.codingchallenge.ui.fragments
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,6 +18,7 @@ import com.luxoft.codingchallenge.databinding.MoviesInTheatresItemBinding
 import com.luxoft.codingchallenge.databinding.MoviesInTheatresLoadingIndicatorBinding
 import com.luxoft.codingchallenge.models.LoadingStatus
 import com.luxoft.codingchallenge.models.Movie
+import com.luxoft.codingchallenge.ui.activities.MovieDetailsActivity
 import com.luxoft.codingchallenge.utils.ui.createToast
 import com.luxoft.codingchallenge.viewmodels.MoviesInTheatresListViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -36,6 +36,7 @@ class MoviesInTheatresListFragment : Fragment() {
 
         configureAndBindMoviesInTheatresView()
         bindSwipeToRefresh()
+        listenToNavigationRequests()
 
         return binding.root
     }
@@ -82,6 +83,18 @@ class MoviesInTheatresListFragment : Fragment() {
                 requireActivity().applicationContext.let { applicationContext ->
                     createToast(applicationContext, R.string.refresh_first_page_error).show()
                 }
+                true
+            }
+        })
+    }
+
+    /**
+     * Listens to and performs any navigation requests initiated by the view model.
+     */
+    private fun listenToNavigationRequests() {
+        moviesListViewModel.showMovieDetailsRequests.observe(viewLifecycleOwner, Observer { wrappedMovie ->
+            wrappedMovie.handle { movie ->
+                startActivity(MovieDetailsActivity.createStartingIntent(requireActivity(), movie))
                 true
             }
         })

@@ -35,7 +35,25 @@ class SearchFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
+        listenToNavigationRequests()
 
+        /**
+         * It seems that it is no longer valid to create view-less fragments
+         * when biding is in use.
+         */
+        return View(context)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.search_fragment_menu_items, menu)
+        val searchItem: MenuItem = menu.findItem(R.id.search)
+        setupSearchView(searchItem.actionView as SearchView)
+    }
+
+    /**
+     * Listens to and performs any navigation requests initiated by the view model.
+     */
+    private fun listenToNavigationRequests() {
         searchViewModel.showMovieDetailsRequests.observe(viewLifecycleOwner, Observer { wrappedMovie ->
             wrappedMovie.handle { movie ->
                 if (movie != null) {
@@ -46,15 +64,6 @@ class SearchFragment : Fragment() {
                 true
             }
         })
-
-
-        return View(context)
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        inflater.inflate(R.menu.search_fragment_menu_items, menu)
-        val searchItem: MenuItem = menu.findItem(R.id.search)
-        setupSearchView(searchItem.actionView as SearchView)
     }
 
     private fun setupSearchView(searchView: SearchView) {
@@ -85,7 +94,7 @@ class SearchFragment : Fragment() {
                  * I have chosen a more simple approach: I simply go to the details of the movie
                  * which is the best match (first on the list).
                  */
-                searchViewModel.onSearchSuggestionClicked.postValue(HandleableEvent(getBestMatch()))
+                searchViewModel.onSearchSuggestionClicked(getBestMatch())
                 return true
             }
 
@@ -105,7 +114,7 @@ class SearchFragment : Fragment() {
             }
 
             override fun onSuggestionClick(position: Int): Boolean {
-                searchViewModel.onSearchSuggestionClicked.postValue(HandleableEvent(getBestMatch()))
+                searchViewModel.onSearchSuggestionClicked(getBestMatch())
                 return true
             }
         })

@@ -22,7 +22,7 @@ class MovieDetailsActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.d("#SEARCH", "" + intent.extras?.getParcelable<Movie>(ARGUMENT_MOVIE) )
+        Log.d("#DETAILS", "MovieDetailsActivity. show movie: ${intent.extras?.getParcelable<Movie>(ARGUMENT_MOVIE)}")
 
     }
 

@@ -1,6 +1,7 @@
 package com.luxoft.codingchallenge.viewmodels
 
 import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.luxoft.codingchallenge.models.LoadingStatus
 import com.luxoft.codingchallenge.models.Movie
@@ -27,6 +28,8 @@ class MoviesInTheatresListViewModel(private val moviesRepository: MoviesReposito
 
     val loadingMoreMoviesInTheatresStatus = MediatorLiveData<LoadingStatus>()
 
+    val showMovieDetailsRequests = MutableLiveData<HandleableEvent<Movie>>()
+
     init {
         val loadingMoreMoviesInTheatresBiStatus = moviesRepository.isLoadingMoreMoviesInTheatres
             .map { isLoading -> isLoading.toLoadingStatus() }
@@ -48,6 +51,10 @@ class MoviesInTheatresListViewModel(private val moviesRepository: MoviesReposito
 
     fun loadRecentMoviesInTheatres() {
         moviesRepository.loadRecentMoviesInTheatres().subscribeAndIgnoreErrors()
+    }
+
+    fun onMovieClicked(movie: Movie) {
+        showMovieDetailsRequests.postValue(HandleableEvent((movie)))
     }
 
     fun onToggleFavouriteClicked(movie: Movie) {

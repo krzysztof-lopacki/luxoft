@@ -26,9 +26,7 @@ class SearchViewModel(moviesRepository: MoviesRepository) : ViewModel() {
 
     val searchInput = MutableLiveData<HandleableEvent<String>>()
 
-    val onSearchSuggestionClicked = MutableLiveData<HandleableEvent<Movie?>>()
-
-    val showMovieDetailsRequests = onSearchSuggestionClicked
+    val showMovieDetailsRequests = MutableLiveData<HandleableEvent<Movie?>>()
 
     init {
         // #REVIEW#: It is ok to observe itself. No references are leaked.
@@ -38,5 +36,9 @@ class SearchViewModel(moviesRepository: MoviesRepository) : ViewModel() {
                 true
             }
         }
+    }
+
+    fun onSearchSuggestionClicked(movie: Movie?) {
+        showMovieDetailsRequests.postValue(HandleableEvent(movie))
     }
 }
