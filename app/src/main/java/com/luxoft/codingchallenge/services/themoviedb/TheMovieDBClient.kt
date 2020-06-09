@@ -4,8 +4,10 @@ import com.luxoft.codingchallenge.models.Movie
 import com.luxoft.codingchallenge.models.Page
 import com.luxoft.codingchallenge.services.api.MoviesInTheatersFetcher
 import com.luxoft.codingchallenge.services.api.MoviesSearch
+import com.luxoft.codingchallenge.utils.network.enableTls12OnPreLollipop
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
+import okhttp3.OkHttpClient
 import retrofit2.Converter
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
@@ -23,10 +25,13 @@ class TheMovieDBClient(factory: Converter.Factory , private val configuration: C
     private val remoteService : RemoteService
 
     init {
+        val okHttpClient = enableTls12OnPreLollipop(OkHttpClient.Builder()).build()
+
         val retrofit = Retrofit.Builder()
             .baseUrl(configuration.serverUrl)
             .addConverterFactory(factory)
             .addCallAdapterFactory(RxJava2CallAdapterFactory.createWithScheduler(Schedulers.io()))
+            .client(okHttpClient)
             .build()
         remoteService = retrofit.create(RemoteService::class.java)
     }

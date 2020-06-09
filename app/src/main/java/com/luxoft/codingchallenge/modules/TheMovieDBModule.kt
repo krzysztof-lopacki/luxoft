@@ -19,6 +19,7 @@ val theMovieDBModule = module {
 
     single {
         val context = androidContext()
+
         Configuration(HttpUrl.get(context.getString(R.string.config_moviedb_url)),
             Locale.getDefault().language,
             context.getString(R.string.config_moviedb_api_key))
