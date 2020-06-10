@@ -32,7 +32,7 @@ class RoomBasedMoviesRepository (private val moviesDao: MoviesDao,
 
         // main db stream
         val config = PagedList.Config.Builder()
-            .setEnablePlaceholders(false)
+            .setEnablePlaceholders(true)
             .setPageSize(configuration.pageSize)
             .build()
         val dbStream = RxPagedListBuilder(moviesDao.getAllPagedList(), config)

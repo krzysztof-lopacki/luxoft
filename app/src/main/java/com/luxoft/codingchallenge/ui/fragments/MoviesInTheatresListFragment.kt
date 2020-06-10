@@ -53,13 +53,7 @@ class MoviesInTheatresListFragment : Fragment() {
         binding.moviesList.adapter = adapter
 
         moviesListViewModel.moviesInTheatres.observe(viewLifecycleOwner, Observer { newList ->
-            if (adapter.itemCount <= 1) {
-                // first run - only footer is visible
-                // android will follow the visible item and scroll list to the bottom
-                // we need to scroll it back
-                binding.moviesList.scrollToPosition(0)
-            }
-            else if (layoutManager.findFirstVisibleItemPosition() == 0) {
+            if (adapter.itemCount > 0 && layoutManager.findFirstVisibleItemPosition() == 0) {
                 // probably new items are PREPENDED.
                 // let's show them
                 binding.moviesList.smoothScrollToPosition(0)
@@ -167,7 +161,9 @@ class MoviesInTheatresListFragment : Fragment() {
         }
 
         override fun getItemCount(): Int {
-            return super.getItemCount() + 1
+            return super.getItemCount().let { count ->
+                if (count > 0) count + 1 else 0
+            }
         }
     }
 
