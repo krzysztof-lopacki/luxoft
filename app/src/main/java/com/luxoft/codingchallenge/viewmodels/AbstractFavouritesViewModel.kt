@@ -8,13 +8,25 @@ import com.luxoft.codingchallenge.utils.livedata.HandleableEvent
 import com.luxoft.codingchallenge.utils.rxjava.subscribeAndIgnoreErrors
 import io.reactivex.disposables.CompositeDisposable
 
+/**
+ * Abstract view models that manages adding and removing movies from Favorites.
+ */
 abstract class AbstractFavouritesViewModel(private val moviesRepository: MoviesRepository): ViewModel() {
     private val subscriptions = CompositeDisposable()
 
+    /**
+     * Stream notifying about adding movie to the Favourites.
+     */
     val onAddedToFavourites = MutableLiveData<HandleableEvent<Movie?>>()
 
+    /**
+     * Stream notifying about removing movie from the Favourites.
+     */
     val onRemovedFromFavourites = MutableLiveData<HandleableEvent<Movie?>>()
 
+    /**
+     * Callback to be invoked when a movie should be added/removed from Favourites.
+     */
     fun onToggleFavouriteClicked(movie: Movie?) {
         if (movie == null) {
             return

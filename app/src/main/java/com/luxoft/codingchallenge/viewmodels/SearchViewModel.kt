@@ -15,6 +15,9 @@ private const val TYPING_SAMPLING_PERIOD = 600L
 class SearchViewModel(moviesRepository: MoviesRepository) : ViewModel() {
     private val searchInputStream = PublishSubject.create<String>()
 
+    /**
+     * #REVIEV#: sampling of typing reduces number of requests to the endpoint
+     */
     val searchSuggestions = searchInputStream.sample(TYPING_SAMPLING_PERIOD, TimeUnit.MILLISECONDS)
         .switchMap { text ->
             moviesRepository.searchForTheMovie(text)
