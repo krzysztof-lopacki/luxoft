@@ -71,7 +71,7 @@ class SearchFragment : Fragment() {
         searchView.queryHint = getString(R.string.search_hint)
 
         // set suggestions adapter
-        val suggestionsAdapter = SimpleCursorAdapter(requireActivity(), android.R.layout.simple_list_item_1,
+        val suggestionsAdapter = SimpleCursorAdapter(requireActivity(), R.layout.search_dropdown_item,
             null, // cursor will be provided later
             arrayOf(SearchManager.SUGGEST_COLUMN_TEXT_1), intArrayOf(android.R.id.text1), 0)
         searchView.suggestionsAdapter = suggestionsAdapter
@@ -114,7 +114,8 @@ class SearchFragment : Fragment() {
             }
 
             override fun onSuggestionClick(position: Int): Boolean {
-                searchViewModel.onSearchSuggestionClicked(getBestMatch())
+                val movie = searchViewModel.searchSuggestions.value?.get(position)
+                searchViewModel.onSearchSuggestionClicked(movie)
                 return true
             }
         })
