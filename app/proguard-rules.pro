@@ -21,8 +21,8 @@
 #-renamesourcefileattribute SourceFile
 
 # App internals
--keep public class * implements com.luxoft.codingchallenge.models**
--keep public class * implements com.luxoft.codingchallenge.services.moviesrepository.db**
+-keep class com.luxoft.codingchallenge.models** { *; }
+-keep class com.luxoft.codingchallenge.services.moviesrepository.db** { *; }
 
 # Glide
 -keep public class * implements com.bumptech.glide.module.GlideModule
