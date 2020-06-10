@@ -20,6 +20,7 @@ import com.luxoft.codingchallenge.models.LoadingStatus
 import com.luxoft.codingchallenge.models.Movie
 import com.luxoft.codingchallenge.ui.activities.MovieDetailsActivity
 import com.luxoft.codingchallenge.utils.ui.createToast
+import com.luxoft.codingchallenge.utils.ui.createToastWithPlainBackground
 import com.luxoft.codingchallenge.viewmodels.MoviesInTheatresListViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -37,6 +38,7 @@ class MoviesInTheatresListFragment : Fragment() {
         configureAndBindMoviesInTheatresView()
         bindSwipeToRefresh()
         listenToNavigationRequests()
+        listenToFavouritesChanges()
 
         return binding.root
     }
@@ -95,6 +97,31 @@ class MoviesInTheatresListFragment : Fragment() {
         moviesListViewModel.showMovieDetailsRequests.observe(viewLifecycleOwner, Observer { wrappedMovie ->
             wrappedMovie.handle { movie ->
                 startActivity(MovieDetailsActivity.createStartingIntent(requireActivity(), movie))
+                true
+            }
+        })
+    }
+
+    /**
+     * Tracks adding and removing to Favourites. Each modification is notified with Toast.
+     */
+    private fun listenToFavouritesChanges() {
+        moviesListViewModel.onAddedToFavourites.observe(viewLifecycleOwner, Observer { movie ->
+            movie.handle {
+                createToastWithPlainBackground(requireActivity().applicationContext,
+                    R.string.toast_added_to_favourites,
+                    backgroundColor = android.R.color.black)
+                    .show()
+                true
+            }
+        })
+
+        moviesListViewModel.onRemovedFromFavourites.observe(viewLifecycleOwner, Observer { movie ->
+            movie.handle {
+                createToastWithPlainBackground(requireActivity().applicationContext,
+                    R.string.toast_removed_from_favourites,
+                    backgroundColor = android.R.color.black)
+                    .show()
                 true
             }
         })

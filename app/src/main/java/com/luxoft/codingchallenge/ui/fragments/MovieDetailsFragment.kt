@@ -29,7 +29,6 @@ class MovieDetailsFragment : Fragment() {
 
     private lateinit var binding: FragmentMovieDetailsBinding
     private var addRemoveFromFavouritesItem: MenuItem? = null
-    private var notifyAboutNextFavouritesChange =  false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,8 +56,7 @@ class MovieDetailsFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item == addRemoveFromFavouritesItem) {
-            notifyAboutNextFavouritesChange = true
-            viewModel.onToggleFavouriteClicked()
+            viewModel.onToggleFavouriteClicked(viewModel.movie.value)
             return true
         }
         return super.onOptionsItemSelected(item)
@@ -67,6 +65,26 @@ class MovieDetailsFragment : Fragment() {
     private fun bindFavouritesToggle() {
         viewModel.movie.observe(viewLifecycleOwner, Observer { movie ->
             updateFavouriteMenuOption(movie)
+        })
+
+        viewModel.onAddedToFavourites.observe(viewLifecycleOwner, Observer { movie ->
+            movie.handle {
+                createToastWithPlainBackground(requireActivity().applicationContext,
+                    R.string.toast_added_to_favourites,
+                    backgroundColor = android.R.color.black)
+                    .show()
+                true
+            }
+        })
+
+        viewModel.onRemovedFromFavourites.observe(viewLifecycleOwner, Observer { movie ->
+            movie.handle {
+                createToastWithPlainBackground(requireActivity().applicationContext,
+                    R.string.toast_removed_from_favourites,
+                    backgroundColor = android.R.color.black)
+                    .show()
+                true
+            }
         })
     }
 
@@ -79,21 +97,6 @@ class MovieDetailsFragment : Fragment() {
                 menuItem.icon = ContextCompat.getDrawable(requireContext(), R.drawable.start_outline)
                 menuItem.title = resources.getString(R.string.movie_details_menu_add_to_favourites)
             }
-        }
-
-        if (notifyAboutNextFavouritesChange) {
-            movie?.apply {
-                val message = if (movie.isFavourite == true) {
-                    R.string.toast_added_to_favourites
-                } else {
-                    R.string.toast_removed_from_favourites
-                }
-                createToastWithPlainBackground(requireActivity().applicationContext,
-                    message,
-                    backgroundColor = android.R.color.black)
-                    .show()
-            }
-            notifyAboutNextFavouritesChange = false
         }
     }
 

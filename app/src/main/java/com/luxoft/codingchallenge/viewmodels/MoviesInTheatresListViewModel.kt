@@ -2,7 +2,6 @@ package com.luxoft.codingchallenge.viewmodels
 
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.luxoft.codingchallenge.models.LoadingStatus
 import com.luxoft.codingchallenge.models.Movie
 import com.luxoft.codingchallenge.services.api.MoviesRepository
@@ -12,7 +11,7 @@ import com.luxoft.codingchallenge.utils.rxjava.toLiveData
 import io.reactivex.BackpressureStrategy
 import io.reactivex.disposables.CompositeDisposable
 
-class MoviesInTheatresListViewModel(private val moviesRepository: MoviesRepository): ViewModel() {
+class MoviesInTheatresListViewModel(private val moviesRepository: MoviesRepository): AbstractFavouritesViewModel(moviesRepository) {
     private val subscriptions = CompositeDisposable()
 
     val moviesInTheatres = moviesRepository.moviesInTheatres
@@ -55,14 +54,6 @@ class MoviesInTheatresListViewModel(private val moviesRepository: MoviesReposito
 
     fun onMovieClicked(movie: Movie) {
         showMovieDetailsRequests.postValue(HandleableEvent((movie)))
-    }
-
-    fun onToggleFavouriteClicked(movie: Movie) {
-        if (movie.isFavourite == true) {
-            moviesRepository.removeMovieFromFavourites(movie.id).subscribeAndIgnoreErrors(subscriptions)
-        } else {
-            moviesRepository.addMovieToFavourites(movie.id).subscribeAndIgnoreErrors(subscriptions)
-        }
     }
 
     override fun onCleared() {
