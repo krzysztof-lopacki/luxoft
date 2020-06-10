@@ -21,6 +21,10 @@ private const val PARAM_LANGUAGE = "language"
 private const val PARAM_PAGE = "page"
 private const val PARAM_SEARCH_QUERY = "query"
 
+/**
+ * The implementation of [MoviesSearch] and [MoviesInTheatersFetcher] which uses
+ * the online The Movie DB API to provide the Now Playing list and movie search mechanism.
+ */
 class TheMovieDBClient(factory: Converter.Factory , private val configuration: Configuration) : MoviesSearch, MoviesInTheatersFetcher {
     private val remoteService : RemoteService
 

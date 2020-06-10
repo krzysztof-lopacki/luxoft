@@ -14,6 +14,10 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.core.qualifier.named
 import org.koin.dsl.module
 
+/**
+ * Koin module providing all the components that are required by the [RoomBasedMoviesRepository]
+ * implementation of the [MoviesRepository].
+ */
 val moviesRepositoryModule = module {
     val moduleQualifier = named("MoviesRepository")
 

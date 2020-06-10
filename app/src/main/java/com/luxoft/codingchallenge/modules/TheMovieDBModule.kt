@@ -10,6 +10,10 @@ import org.koin.dsl.binds
 import org.koin.dsl.module
 import retrofit2.Converter
 
+/**
+ * Koin module providing all the components that combined provide The Movie DB based implementation
+ * of the [MoviesInTheatersFetcher] and [MoviesSearch] interfaces.
+ */
 val theMovieDBModule = module {
     val moduleQualifier = named("TheMovieDB")
 

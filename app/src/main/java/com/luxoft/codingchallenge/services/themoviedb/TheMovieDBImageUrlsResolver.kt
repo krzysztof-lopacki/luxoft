@@ -6,6 +6,9 @@ import com.luxoft.codingchallenge.services.api.MovieImageUrlResolver
 import com.luxoft.codingchallenge.services.api.MovieImageUrlResolver.ImageType
 import com.luxoft.codingchallenge.utils.arrays.findClosest
 
+/**
+ * The resolver that resolves url's to the image resources provided by the The Movie DB online repository.
+ */
 class TheMovieDBImageUrlsResolver(private val applicationContext: Context,
                                   private val configuration: Configuration) : MovieImageUrlResolver {
     override fun getImageUrl(imageFileName: String?, type: ImageType,

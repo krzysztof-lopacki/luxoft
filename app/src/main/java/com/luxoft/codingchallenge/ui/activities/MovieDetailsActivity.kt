@@ -10,6 +10,9 @@ import com.luxoft.codingchallenge.R
 import com.luxoft.codingchallenge.models.Movie
 import com.luxoft.codingchallenge.ui.arguments.ArgumentKeys
 
+/**
+ * Activity showing the details of the movies passed as argument.
+ */
 class MovieDetailsActivity : AppCompatActivity() {
     companion object {
         /**
