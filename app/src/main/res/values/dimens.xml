@@ -6,4 +6,6 @@
 
     <dimen name="movie_details_horizontal_margin">12dp</dimen>
     <dimen name="movie_details_groups_vertical_spacing">8dp</dimen>
+
+    <dimen name="search_dropdown_item_vertical_padding">8dp</dimen>
 </resources>

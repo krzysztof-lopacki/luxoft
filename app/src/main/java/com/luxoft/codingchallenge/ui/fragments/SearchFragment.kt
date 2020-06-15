@@ -1,6 +1,7 @@
 package com.luxoft.codingchallenge.ui.fragments
 
 import android.app.SearchManager
+import android.content.Context
 import android.database.Cursor
 import android.database.MatrixCursor
 import android.os.Bundle
@@ -25,6 +26,7 @@ private const val MIN_INPUT_LENGTH = 2
 
 class SearchFragment : Fragment() {
     private val searchViewModel: SearchViewModel by viewModel()
+    private lateinit var searchMenuItem: MenuItem
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,8 +48,8 @@ class SearchFragment : Fragment() {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.search_fragment_menu_items, menu)
-        val searchItem: MenuItem = menu.findItem(R.id.search)
-        setupSearchView(searchItem.actionView as SearchView)
+        searchMenuItem = menu.findItem(R.id.search)
+        setupSearchView(searchMenuItem.actionView as SearchView)
     }
 
     /**
@@ -73,10 +75,10 @@ class SearchFragment : Fragment() {
         // set suggestions adapter
         val suggestionsAdapter = SimpleCursorAdapter(requireActivity(), R.layout.search_dropdown_item,
             null, // cursor will be provided later
-            arrayOf(SearchManager.SUGGEST_COLUMN_TEXT_1), intArrayOf(android.R.id.text1), 0)
+            arrayOf(SearchManager.SUGGEST_COLUMN_TEXT_1, SearchManager.SUGGEST_COLUMN_TEXT_2), intArrayOf(R.id.title, R.id.releaseDate), 0)
         searchView.suggestionsAdapter = suggestionsAdapter
         searchViewModel.searchSuggestions.observe(viewLifecycleOwner, Observer { movies ->
-            suggestionsAdapter.swapCursor(movies.toCursor())
+            suggestionsAdapter.swapCursor(movies.toCursor(requireContext()))
         })
 
         // handling user input
@@ -128,6 +130,15 @@ class SearchFragment : Fragment() {
     private fun getBestMatch(): Movie? {
         return searchViewModel.searchSuggestions.value?.firstOrNull()
     }
+
+    override fun onStop() {
+        super.onStop()
+
+        // Absolutely arbitrary.
+        // I personally prefer that the search input is closed when I come back to the activity
+        // with back button.
+        searchMenuItem.collapseActionView()
+    }
 }
 
 /**
@@ -135,12 +146,13 @@ class SearchFragment : Fragment() {
  */
 private val SUGGESTIONS_CURSOR_COLUMNS = arrayOf(BaseColumns._ID,
     SearchManager.SUGGEST_COLUMN_TEXT_1,
-    SearchManager.SUGGEST_COLUMN_INTENT_DATA)
+    SearchManager.SUGGEST_COLUMN_TEXT_2)
 
-private fun List<Movie>.toCursor(): Cursor {
+private fun List<Movie>.toCursor(context: Context): Cursor {
     val cursor = MatrixCursor(SUGGESTIONS_CURSOR_COLUMNS)
     for (i in indices) {
-        cursor.addRow(arrayOf(i, get(i).title, get(i).id))
+        cursor.addRow(arrayOf(i, get(i).title,
+            context.resources.getString(R.string.search_dropdown_item_release_date_pattern, get(i).releaseDate)))
     }
     return cursor
 }
