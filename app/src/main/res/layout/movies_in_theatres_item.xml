@@ -16,15 +16,39 @@
         android:background="@drawable/background_underline">
 
         <TextView
+            android:id="@+id/title"
             android:layout_width="0dp"
-            android:layout_height="match_parent"
-            tools:text="Sample title"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/toggleFavouriteIcon"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/releaseDate"
+            app:layout_constraintVertical_chainStyle="packed"
+            android:paddingStart="20dp"
+            android:includeFontPadding="false"
+            tools:text="Some very long title that is not fitting into this short text view."
             android:text="@{movie.title}"
             android:textSize="20sp"
+            android:lines="1"
+            android:ellipsize="end"
+            android:onClick="@{() -> moviesListViewModel.onMovieClicked(movie)}" />
+
+        <TextView
+            android:id="@+id/releaseDate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/toggleFavouriteIcon"
+            app:layout_constraintTop_toBottomOf="@+id/title"
             android:paddingStart="20dp"
-            android:gravity="center_vertical"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@+id/toggleFavouriteIcon"
+            android:paddingBottom="2dp"
+            android:includeFontPadding="false"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:text="(1998))"
+            android:text="@{@string/movies_in_theatres_item_release_date(movie.releaseDate)}"
+            android:textSize="12sp"
+            android:lines="1"
+            android:ellipsize="end"
             android:onClick="@{() -> moviesListViewModel.onMovieClicked(movie)}" />
 
         <ImageView
