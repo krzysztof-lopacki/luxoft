@@ -31,6 +31,8 @@ class RoomBasedMoviesRepository (private val moviesDao: MoviesDao,
         val additionalSubstreams = Observable.merge(addStreamRequest)
 
         // main db stream
+        // TODO: converting DataSource.Factory<Int, Movie> to Observable<PagedList<Movie>> (lines 36-64)
+        //  should be done in a view model, not here
         val config = PagedList.Config.Builder()
             .setEnablePlaceholders(true)
             .setPageSize(configuration.pageSize)

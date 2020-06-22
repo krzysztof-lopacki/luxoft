@@ -11,12 +11,19 @@ import io.reactivex.Observable
  */
 interface MoviesRepository {
 
+    // TODO: all fields from val moviesInTheatres: Observable<PagedList<Movie>>
+    //  to val loadingMoreMoviesInTheatresErrors: Observable<Throwable> (line to )
+    //  should be extracted to more general, reusable interface (e.g. LazyRemoteListLoader)
+    //  This would simplify the MoviesRepository as well as its responsibility would to be to
+    //  provide appropriate loader only.
+
     /**
      * Paged list of the movies that are in the theatres currently (aka Now Playing list).
      * @return  A stream containing a paged list of movies in theatres. The returned stream dispatches
      *          a new version of the movie's list each time it is updated (e.g. prepended)
      *          or any of its items is modified (e.g. movie is add to the Favourites).
      */
+    // TODO: converting DataSource.Factory<Int, Movie> to Observable<PagedList<Movie>>  should be done in a view model
     val moviesInTheatres: Observable<PagedList<Movie>>
 
     /**
