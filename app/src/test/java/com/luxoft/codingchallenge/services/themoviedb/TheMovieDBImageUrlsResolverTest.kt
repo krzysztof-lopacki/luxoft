@@ -33,12 +33,12 @@ class TheMovieDBImageUrlsResolverTest {
 
     @Test
     fun getImageUrl() {
-        assertEquals("test/w20/poster.jpg", sut.getImageUrl(MOVIE, MovieImageUrlResolver.ImageType.POSTER, 15))
-        assertEquals("test/original/poster.jpg", sut.getImageUrl(MOVIE, MovieImageUrlResolver.ImageType.POSTER, 150))
-        assertEquals("test/w10/poster.jpg", sut.getImageUrl(MOVIE, MovieImageUrlResolver.ImageType.POSTER, 0))
+        assertEquals("test/w20/poster.jpg", sut.getImageUrl(MOVIE.posterPath, MovieImageUrlResolver.ImageType.POSTER, 15))
+        assertEquals("test/original/poster.jpg", sut.getImageUrl(MOVIE.posterPath, MovieImageUrlResolver.ImageType.POSTER, 150))
+        assertEquals("test/w10/poster.jpg", sut.getImageUrl(MOVIE.posterPath, MovieImageUrlResolver.ImageType.POSTER, 0))
 
-        assertEquals("test/w200/backdrop.jpg", sut.getImageUrl(MOVIE, MovieImageUrlResolver.ImageType.BACKDROP, 150))
-        assertEquals("test/original/backdrop.jpg", sut.getImageUrl(MOVIE, MovieImageUrlResolver.ImageType.BACKDROP, 1500))
-        assertEquals("test/w100/backdrop.jpg", sut.getImageUrl(MOVIE, MovieImageUrlResolver.ImageType.BACKDROP, 0))
+        assertEquals("test/w200/backdrop.jpg", sut.getImageUrl(MOVIE.backdropPath, MovieImageUrlResolver.ImageType.BACKDROP, 150))
+        assertEquals("test/original/backdrop.jpg", sut.getImageUrl(MOVIE.backdropPath, MovieImageUrlResolver.ImageType.BACKDROP, 1500))
+        assertEquals("test/w100/backdrop.jpg", sut.getImageUrl(MOVIE.backdropPath, MovieImageUrlResolver.ImageType.BACKDROP, 0))
     }
 }
