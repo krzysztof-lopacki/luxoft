@@ -27,8 +27,7 @@ class RoomBasedMoviesRepository (private val moviesDao: MoviesDao,
 
     private fun createMoviesInTheatresStreams() {
         // stream gathering all substreams created during subscription
-        val addStreamRequest = PublishSubject.create<Observable<PagedList<Movie>>>()
-        val additionalSubstreams = Observable.merge(addStreamRequest)
+        val updateOperations = PublishSubject.create<Completable>()
 
         // main db stream
         // TODO: converting DataSource.Factory<Int, Movie> to Observable<PagedList<Movie>> (lines 36-64)
@@ -40,26 +39,27 @@ class RoomBasedMoviesRepository (private val moviesDao: MoviesDao,
         val dbStream = RxPagedListBuilder(moviesDao.getAllPagedList(), config)
             .setBoundaryCallback(object : PagedList.BoundaryCallback<Movie>() {
                 override fun onItemAtEndLoaded(itemAtEnd: Movie) {
-                    addStreamRequest.onNext(moviesInTheatresUpdater.loadNextPage.toErrorlessObservable())
+                    updateOperations.onNext(moviesInTheatresUpdater.loadNextPage)
                 }
                 override fun onItemAtFrontLoaded(itemAtFront: Movie) {
-                    addStreamRequest.onNext(moviesInTheatresUpdater.refreshFirstPageIfRequired.toErrorlessObservable())
+                    updateOperations.onNext(moviesInTheatresUpdater.refreshFirstPageIfRequired)
                 }
                 override fun onZeroItemsLoaded() {
-                    addStreamRequest.onNext(moviesInTheatresUpdater.refreshFirstPage.toErrorlessObservable())
+                    updateOperations.onNext(moviesInTheatresUpdater.refreshFirstPage)
                 }
             })
             .buildObservable()
             .share()
 
-        // Sll streams together:
+        // All streams together:
         // 1. Main stream providing data from DB.
         // 2. Initial refresh stream started on subscription.
-        // 3. A stream gathering all substreams created during the lifetime of the current subscription.
+        // 3. A stream gathering all operations created during the lifetime of the current subscription.
+        //    This approach cancels all update operations when no one listens to the main stream anymore.
         moviesInTheatres = Observable.mergeArray(
-            dbStream,
-            moviesInTheatresUpdater.refreshFirstPage.toErrorlessObservable(),
-            additionalSubstreams
+            dbStream, // the only stream providing data
+            moviesInTheatresUpdater.refreshFirstPage.toErrorlessObservable(), // initial refresh
+            updateOperations.flatMap { it.toErrorlessObservable<PagedList<Movie>>() } // update operations
         )
         .share()
     }
